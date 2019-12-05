@@ -1,22 +1,18 @@
 # financial-feed-summarizer
 
-https://seekingalpha.com/market-news  
-https://www.bloomberg.com  
-https://www.ft.com  
-https://www.investing.com  
-https://www.marketwatch.com/latest-news  
-
-
 #### Challenge
-Public sentiment is driving news sources. Especially news headlines/content that polarizes leave a mass amount of comments from readers. Currently there are teams that review content based on hateful comments. However, currently sentiment scores are not used to determine if news comments are almost in line with guidelines.  
+Publishers share information about company activities ad-hoc, such as insider trades, company earnings or institutional investments. (see google search: “AAPL price target” For news publishers it is often about the speed/reliability of publishing such standartized news. Often the information between two published articles is similar. NLP has progressed in the past years and algorithms can identify similarities within texts automatically and summarize, reshape and create text for informational purposes. The goal of this project is to generate “unique” text ad-hoc for company events such as insider trades, company earnings etc. by using several financial data sources as input.  
 
 #### Solution
-Create a sentiment score to analyse news comments.  
+ Solution
+Create a solution that captures text from many different rss feeds and generates short summaries that is publishable.  
 
 #### Approach
-* Get comments from public news site/twitter, which are reactions to current news events
-* Create a sentiment score based on that comment and rank the comments from hateful to nice
-* Calculate a sentiment score for the news topic and predict the score for new news headlines  
+
+* Crawl several financial feeds
+* Determine similar texts and select the most important information
+* Merge text based on rules and generate readable “new” text
+* Use “Readability Algorithms” to determine readability -> Text has to be readable to person
 
 #### Data set description  
- News feeds, APIs or social media
+Financial news sites are publishing via an rss feed current happenings. These feeds provide a practical approach to scrape and match news and generate publishable text.
