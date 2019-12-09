@@ -25,37 +25,83 @@ import requests
 import numpy as np
 
 financialFeeds = [  'https://seekingalpha.com/market_currents.xml',
-                    #'https://www.investing.com/rss/news.rss',
-                    #'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',
-                    #'https://www.cnbc.com/id/10000664/device/rss/rss.html'
+                    'https://www.investing.com/rss/news.rss',
+                    'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',
+                    'https://www.cnbc.com/id/10000664/device/rss/rss.html'
                     ]
 
-newsLinks = {'title': [], 'link': []}
 
-# Getting titles and links from the RSS-Feeds and saving into the newsLinks dict
+
+# Getting titles and links from the RSS-Feeds and saving into arrays
+title = []
+link = []
 for feedLink in financialFeeds:
     d = feedparser.parse(feedLink)
     for entry in d.entries:
-        newsLinks['title'].append(entry.title)
-        newsLinks['link'].append(entry.link)
+        title.append(entry.title)
+        link.append(entry.link)
 
-# Getting the article text from the link and saving it to the DataFrame (only functional with seekingalpha atm)
-article = []
-
-for link in newsLinks['link']:
-    paragraphText = []
-    response = requests.get(link)
+# Getting the article text with bs4 from the link list and saving it into an array called text
+# Functions for four different news sites
+def get_article_from_seeking(url):
+    article = []
+    response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    if soup.article:
-        paragraphs = soup.article.find_all('p')
-        for paragraph in paragraphs:
-            paragraphText.append(paragraph.get_text())
-        article.append(paragraphText)
-    else:
-        article.append(np.nan)
+    paragraphs = soup.article.find_all('p')
+    for paragraph in paragraphs:
+        article.append(paragraph.get_text())
+    return article
 
-# Adding paragraph text to the newsLinks dict
-newsLinks['text'] = article
+def get_article_from_investing(url):
+    article = []
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    paragraphs = soup.find("div", class_="WYSIWYG articlePage").find_all('p')
+    for paragraph in paragraphs:
+        article.append(paragraph.get_text())
+    return article
+
+def get_article_from_wsj(url):
+    article = []
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    paragraphs = soup.find("div", class_="group").find_all('p')
+    for paragraph in paragraphs:
+        article.append(paragraph.get_text())
+    return article
+
+def get_article_from_cnbc(url):
+    article = []
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    paragraphs = soup.find("div", class_="group").find_all('p')
+    for paragraph in paragraphs:
+        article.append(paragraph.get_text())
+    return article
+
+text = []
+for url in link:
+    try:
+        if url.find('seekingalpha.com') != -1:
+            text.append(get_article_from_seeking(url))
+        elif url.find('investing.com') != -1:
+            text.append(get_article_from_investing(url))
+        elif url.find('www.wsj.com') != -1:
+            text.append(get_article_from_wsj(url))
+        elif url.find('www.cnbc.com') != -1:
+            text.append(get_article_from_cnbc(url))
+        else:
+            print('Else')
+            text.append(np.nan)
+    except AttributeError:
+        print('Error')
+        text.append(np.nan)
+
+print(len(text))
+
+# Adding arrays to a dict
+newsLinks = {'title': title, 'link': link, 'text': text}
 
 # Converting the dict to a DataFrame and change column order
 financialFeedsDataFrame = pd.DataFrame.from_dict(newsLinks)
