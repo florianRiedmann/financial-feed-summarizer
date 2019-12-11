@@ -1,21 +1,12 @@
-# RSS FEEDS
-
-# https://seekingalpha.com/market_currents.xml              seekingalpha.com
-# https://www.investing.com/rss/news.rss                    Investing.com
-# https://feeds.a.dj.com/rss/RSSMarketsMain.xml             Wall Stree Journal
-# https://www.cnbc.com/id/10000664/device/rss/rss.html      CNBC Finance
-
+# General idea
 # Crawl serveral financial feeds
 # Python Package feedparser
-
 # Determine similarity
 # Jaccard coefficient, Lexical similarity
 # Semantic similarity?
-
 # Create readable 'new' text (Summaries)
 # extractive summarization
 # abstractive summarization
-
 # Text Rank Algorithm
 
 import feedparser
@@ -23,23 +14,40 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import requests
 import numpy as np
+import datetime
+import json
+
+# RSS FEEDS
+
+with open("data_file.json", "r") as read_file:
+    data = json.load(read_file)
+
+print(data)
 
 financialFeeds = [  'https://seekingalpha.com/market_currents.xml',
                     'https://www.investing.com/rss/news.rss',
                     'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',
-                    'https://www.cnbc.com/id/10000664/device/rss/rss.html'
+                    'https://www.cnbc.com/id/10000664/device/rss/rss.html',
+                    #'https://www1.cbn.com/rss-cbn-news-finance.xml',
+                    #'https://www.business-standard.com/rss/finance-news-10301.rss',
+                    #'https://www.telegraph.co.uk/finance/rssfeeds/',
+                    #'https://fortune.com/feed',
+                    #'https://www.ft.com/?format=rss'
+                    #'https://www.theguardian.com/uk/rss'
                     ]
 
-
-
 # Getting titles and links from the RSS-Feeds and saving into arrays
-title = []
-link = []
-for feedLink in financialFeeds:
-    d = feedparser.parse(feedLink)
-    for entry in d.entries:
-        title.append(entry.title)
-        link.append(entry.link)
+def parse_feed(urls):
+    title, link, date = ([] for i in range(3))
+    for url in urls:
+        d = feedparser.parse(url)
+        for entry in d.entries:
+            title.append(entry.title)
+            link.append(entry.link)
+            date.append(entry.published)
+    return title, link, date
+
+title, link, date = parse_feed(financialFeeds)
 
 # Getting the article text with bs4 from the link list and saving it into an array called text
 # Functions for four different news sites
@@ -82,31 +90,31 @@ def get_article_from_cnbc(url):
 
 text = []
 for url in link:
+    print(f'Reading article from: {url[:50]}...')
     try:
         if url.find('seekingalpha.com') != -1:
             text.append(get_article_from_seeking(url))
         elif url.find('investing.com') != -1:
             text.append(get_article_from_investing(url))
-        elif url.find('www.wsj.com') != -1:
+        elif url.find('wsj.com') != -1:
             text.append(get_article_from_wsj(url))
-        elif url.find('www.cnbc.com') != -1:
+        elif url.find('cnbc.com') != -1:
             text.append(get_article_from_cnbc(url))
         else:
-            print('Else')
-            text.append(np.nan)
+            pass #Raise Error?
     except AttributeError:
-        print('Error')
+        print('Attribute Error')
         text.append(np.nan)
 
 print(len(text))
 
 # Adding arrays to a dict
-newsLinks = {'title': title, 'link': link, 'text': text}
+newsLinks = {'title': title, 'link': link, 'text': text, 'date': date}
 
 # Converting the dict to a DataFrame and change column order
 financialFeedsDataFrame = pd.DataFrame.from_dict(newsLinks)
-order = ['title', 'link', 'text']
+order = ['title', 'link', 'date', 'text']
 financialFeedsDataFrame = financialFeedsDataFrame.loc[:,order]
 
 # Export DataFrame to a csv file
-financialFeedsDataFrame.to_csv('financialFeeds.csv', index=False)
+financialFeedsDataFrame.to_csv(f'{datetime.date.today()}_financial_feeds.csv', index=False)
