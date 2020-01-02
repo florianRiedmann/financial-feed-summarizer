@@ -68,11 +68,4 @@ def create_DataFrame(feeds):
     return dataFrame
 
 
-<<<<<<< HEAD
-d = feedparser.parse('https://seekingalpha.com/market_currents.xml')
-print(d)
-
-# Test
-=======
 create_DataFrame(feeds)
->>>>>>> florian
