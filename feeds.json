@@ -1,0 +1,39 @@
+{
+  "0": {
+    "name": "Seeking Alpha",
+    "url": "https://seekingalpha.com/market_currents.xml",
+    "tag": "article",
+    "class": null,
+    "header": null
+  },
+  "1": {
+    "name": "Investing",
+    "url": "https://www.investing.com/rss/news.rss",
+    "tag": "div",
+    "class": "WYSIWYG articlePage",
+    "header": {
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+    }
+  },
+  "2": {
+    "name": "CNBC",
+    "url": "https://www.cnbc.com/id/10000664/device/rss/rss.html",
+    "tag": "div",
+    "class": "ArticleBody-articleBody",
+    "header": null
+  },
+  "3": {
+    "name": "CBN",
+    "url": "https://www1.cbn.com/rss-cbn-news-finance.xml",
+    "tag": null,
+    "class": null,
+    "header": null
+  },
+  "4": {
+    "name": "Business-Standard",
+    "url": "https://www.business-standard.com/rss/finance-news-10301.rss",
+    "tag": "span",
+    "class": "p-content",
+    "header": null
+  }
+}
