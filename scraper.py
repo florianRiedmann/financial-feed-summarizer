@@ -11,6 +11,7 @@ import json
 with open('feeds.json') as file:
     feeds = json.load(file)
 
+
 def parse_feed(feed: dict):
     title, url, date = ([] for i in range(3))
     f = feedparser.parse(feed['url'])
@@ -18,7 +19,7 @@ def parse_feed(feed: dict):
         title.append(entry.title)
         url.append(entry.link)
         date.append(entry.published)
-    return  {'title': title, 'url': url, 'date': date}
+    return {'title': title, 'url': url, 'date': date}
 
 
 def clean_string(s: str):
