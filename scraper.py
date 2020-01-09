@@ -8,8 +8,10 @@ import numpy as np
 import datetime
 import json
 
-with open('feeds.json') as file:
-    feeds = json.load(file)
+def feeds():
+    with open('feeds.json') as file:
+        feeds = json.load(file)
+    return feeds
 
 
 def parse_feed(feed: dict):
@@ -67,6 +69,3 @@ def create_DataFrame(feeds):
         df.to_csv(f'{make_directory(str(date))}/{date}_financial_feed_id_{id}.csv', index=False)
         dataFrame = pd.concat([dataFrame, df])
     return dataFrame
-
-
-create_DataFrame(feeds)

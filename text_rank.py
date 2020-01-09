@@ -3,8 +3,13 @@ import numpy as np
 import pandas as pd
 import networkx as nx
 
-sentences = pd.read_csv('test_data/sentences.csv', header=None, squeeze=True)
-clean_sentences = pd.read_csv('test_data/clean_sentences.csv', header=None, squeeze=True)
+# test_data
+# sentences = pd.read_csv('test_data/sentences.csv', header=None, squeeze=True)
+# clean_sentences = pd.read_csv('test_data/clean_sentences.csv', header=None, squeeze=True)
+
+# clean_Text
+sentences = pd.read_csv('clean_Text/sentences.csv', header=None, squeeze=True)
+clean_sentences = pd.read_csv('clean_Text/clean_sentences.csv', header=None, squeeze=True)
 
 # find rows with nan
 mask = clean_sentences.isna()
