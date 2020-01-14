@@ -7,9 +7,10 @@ import networkx as nx
 # sentences = pd.read_csv('test_data/sentences.csv', header=None, squeeze=True)
 # clean_sentences = pd.read_csv('test_data/clean_sentences.csv', header=None, squeeze=True)
 
-# clean_Text
-sentences = pd.read_csv('clean_Text/sentences.csv', header=None, squeeze=True)
-clean_sentences = pd.read_csv('clean_Text/clean_sentences.csv', header=None, squeeze=True)
+# clean_text
+project_dir = os.path.dirname(__file__)
+sentences = pd.read_csv(os.path.join(project_dir,'clean_text/sentences.csv'), header=None, squeeze=True)
+clean_sentences = pd.read_csv(os.path.join(project_dir,'clean_text/clean_sentences.csv'), header=None, squeeze=True)
 
 # find rows with nan
 mask = clean_sentences.isna()
@@ -85,4 +86,5 @@ for index, sentence in enumerate(sentences):
     list.append((scores[index], sentence))
 
 df = pd.DataFrame(list, columns =['Score', 'Sentence'])
-print(df.nlargest(10, 'Score'))
+# df.nlargest(10, 'Score').to_csv(os.path.join(project_dir, "summary.csv"), header=False, index=False)
+df.to_csv(os.path.join(project_dir, "result/summary.csv"), header=False, index=False)

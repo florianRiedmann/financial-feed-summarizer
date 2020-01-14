@@ -11,16 +11,41 @@ from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 
 project_dir = os.path.dirname(__file__)
-feed_df = pd.read_csv(os.path.join(project_dir,'2020-01-09/2020-01-09_financial_feed_id_0.csv'))
-# feed_df = scraper.create_DataFrame(scraper.feeds())
+feed_df = scraper.create_DataFrame(scraper.feeds(), export_csv=False)
+# feed_df = pd.read_csv(os.path.join(project_dir,'2020-01-09/2020-01-09_financial_feed_id_1.csv'))
 
-# returns a list of articles with a list of sentences in it
-articles = [sent_tokenize(article) for article in feed_df['article']]
+# remove empty articles from the dataFrame
+empty_article = []
+for index, article in feed_df['article'].items():
+    if not article: # check if it is a empty string
+        empty_article.append(index) # append the index of the row
 
+feed_df = feed_df.drop(empty_article)
+
+articles = []
+for article in feed_df['article']:
+    articles.append(sent_tokenize(str(article)))
+
+# make a list with every sentence
 sentences = []
 for article in articles:
     for sentence in article:
         sentences.append(sentence)
+
+# Remove sentences with bad_words
+bad_words = ['seeking', 'premium', 'subscribe', 'payable', 'follow', 'googletag']
+
+
+for sentence in sentences:
+    for word in sentence.replace(".", " ").replace(";", " ").split(" "):
+        if word in bad_words:
+            sentences.remove(sentence)
+            break # continue with the outer loop
+
+# sentence length has to be minimum of three words after cleaning
+sentences = [sentence for sentence in sentences if len(sentence.split(" ")) >= 5]
+
+
 
 # remove numbers, spaces, special characters and punctuation
 clean_sentences = pd.Series(sentences).str.replace("[^a-zA-Z]", " ") \
@@ -40,9 +65,6 @@ for sentence in clean_sentences:
         if word not in stop_words:
             filtered_words.append(word)
     filtered_sentences.append(" ".join(filtered_words))
-
-# sentence length has to be minimum of three words after cleaning
-clean_sentences = [sentence if len(sentence.split(" ")) >= 3 else "" for sentence in filtered_sentences ]
 
 # export cleaned sentences do DataFrame
 pd.DataFrame(sentences).to_csv(os.path.join(project_dir, "clean_text/sentences.csv"), header=False, index=False)
