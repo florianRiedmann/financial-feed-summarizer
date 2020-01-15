@@ -11,8 +11,10 @@ from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 
 project_dir = os.path.dirname(__file__)
-feed_df = scraper.create_DataFrame(scraper.feeds(), export_csv=False)
-# feed_df = pd.read_csv(os.path.join(project_dir,'2020-01-09/2020-01-09_financial_feed_id_1.csv'))
+#feed_df = scraper.create_DataFrame(scraper.feeds(), export_csv=False)
+feed_df = pd.read_csv(os.path.join(project_dir,'feeds/2020-01-09/2020-01-09_financial_feed_id_4.csv'))
+
+feed_df['article'].str.replace
 
 # remove empty articles from the dataFrame
 empty_article = []
@@ -33,19 +35,29 @@ for article in articles:
         sentences.append(sentence)
 
 # Remove sentences with bad_words
-bad_words = ['seeking', 'premium', 'subscribe', 'payable', 'follow', 'googletag']
+bad_words = ['seeking', 'premium', 'subscribe', 'payable', 'follow', 'submitted', 'copyright']
 
 
 for sentence in sentences:
-    for word in sentence.replace(".", " ").replace(";", " ").split(" "):
-        if word in bad_words:
+    for word in sentence.replace(".", " ").replace(";", " ").replace("\'", " ").split(" "):
+        if word.lower() in bad_words:
             sentences.remove(sentence)
             break # continue with the outer loop
 
 # sentence length has to be minimum of three words after cleaning
 sentences = [sentence for sentence in sentences if len(sentence.split(" ")) >= 5]
 
-
+sentences = pd.Series(sentences).str.replace(r"[\[\]]", "", regex=True) \
+    .str.replace(r"\\r", "", regex=True) \
+    .str.replace(r"\\n", "", regex=True) \
+    .str.replace(r"\\t", "", regex=True) \
+    .str.replace(",\'", "", regex=False) \
+    .str.replace("\',", "", regex=False) \
+    .str.replace("\",", "", regex=False) \
+    .str.replace("\"", "", regex=False) \
+    .str.replace(r"^ ", "", regex=True) \
+    .str.replace(r"^\'", "", regex=True) \
+    .str.replace(r"(?<=if)(.*)(?=displayConBanner=1)", " ", regex=True)
 
 # remove numbers, spaces, special characters and punctuation
 clean_sentences = pd.Series(sentences).str.replace("[^a-zA-Z]", " ") \
