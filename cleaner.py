@@ -11,8 +11,13 @@ from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 
 project_dir = os.path.dirname(__file__)
+<<<<<<< HEAD
 feed_df = scraper.create_DataFrame(scraper.feeds(), export_csv=False)
 # feed_df = pd.read_csv(os.path.join(project_dir,'feeds/2020-01-09/2020-01-09_financial_feed_id_4.csv'))
+=======
+#feed_df = scraper.create_DataFrame(scraper.feeds(), export_csv=False)
+feed_df = pd.read_csv(os.path.join(project_dir,'feeds/2020-01-09/2020-01-09_financial_feed_id_4.csv'))
+>>>>>>> 353ce0bafb851f603cb14e35eb030fbd39b7dfa7
 
 feed_df['article'].str.replace
 
