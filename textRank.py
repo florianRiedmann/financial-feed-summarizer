@@ -86,5 +86,5 @@ for index, sentence in enumerate(sentences):
     list.append((scores[index], sentence))
 
 df = pd.DataFrame(list, columns =['Score', 'Sentence'])
-# df.nlargest(10, 'Score').to_csv(os.path.join(project_dir, "summary.csv"), header=False, index=False)
+df.nlargest(20, 'Score').to_csv(os.path.join(project_dir, "result/summary_top20.csv"), header=False, index=False)
 df.to_csv(os.path.join(project_dir, "result/summary.csv"), header=False, index=False)

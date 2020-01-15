@@ -9,7 +9,7 @@ import datetime
 import json
 
 def feeds():
-    with open('/feeds/feeds.json') as file:
+    with open('feeds/feeds.json') as file:
         feeds = json.load(file)
     return feeds
 
