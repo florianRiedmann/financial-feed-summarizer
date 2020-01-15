@@ -1,0 +1,7 @@
+.git
+.DS_Store
+__pycache__
+*.csv
+test_data/
+glove/
+ffs-venv/
