@@ -11,15 +11,9 @@ from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 
 project_dir = os.path.dirname(__file__)
-<<<<<<< HEAD
-feed_df = scraper.create_DataFrame(scraper.feeds(), export_csv=False)
-# feed_df = pd.read_csv(os.path.join(project_dir,'feeds/2020-01-09/2020-01-09_financial_feed_id_4.csv'))
-=======
-#feed_df = scraper.create_DataFrame(scraper.feeds(), export_csv=False)
-feed_df = pd.read_csv(os.path.join(project_dir,'feeds/2020-01-09/2020-01-09_financial_feed_id_4.csv'))
->>>>>>> 353ce0bafb851f603cb14e35eb030fbd39b7dfa7
+# feed_df = scraper.create_DataFrame(scraper.feeds(), export_csv=False)
+feed_df = pd.read_csv('feeds/2020-01-16/2020-01-16_financial_feeds.csv')
 
-feed_df['article'].str.replace
 
 # remove empty articles from the dataFrame
 empty_article = []
@@ -52,17 +46,19 @@ for sentence in sentences:
 # sentence length has to be minimum of three words after cleaning
 sentences = [sentence for sentence in sentences if len(sentence.split(" ")) >= 5]
 
+# remove duplicates from scentences
+print(len(sentences))
+sentences = list(set(sentences))
+print(len(sentences))
+
+
 sentences = pd.Series(sentences).str.replace(r"[\[\]]", "", regex=True) \
-    .str.replace(r"\\r", "", regex=True) \
-    .str.replace(r"\\n", "", regex=True) \
-    .str.replace(r"\\t", "", regex=True) \
     .str.replace(",\'", "", regex=False) \
     .str.replace("\',", "", regex=False) \
     .str.replace("\",", "", regex=False) \
     .str.replace("\"", "", regex=False) \
     .str.replace(r"^ ", "", regex=True) \
-    .str.replace(r"^\'", "", regex=True) \
-    .str.replace(r"(?<=if)(.*)(?=displayConBanner=1)", " ", regex=True)
+    .str.replace(r"^\'", "", regex=True)
 
 # remove numbers, spaces, special characters and punctuation
 clean_sentences = pd.Series(sentences).str.replace("[^a-zA-Z]", " ") \
