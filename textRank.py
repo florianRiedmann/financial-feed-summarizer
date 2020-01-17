@@ -2,25 +2,18 @@ import os
 import numpy as np
 import pandas as pd
 import networkx as nx
+import cleaner
 
-# test_data
-# sentences = pd.read_csv('test_data/sentences.csv', header=None, squeeze=True)
-# clean_sentences = pd.read_csv('test_data/clean_sentences.csv', header=None, squeeze=True)
+sentences = cleaner.clean_sentence_pipe()
+celan_sentences = cleaner.clean_clean_sentence_pipe()
 
-# clean_text
-project_dir = os.path.dirname(__file__)
-sentences = pd.read_csv(os.path.join(project_dir,'clean_text/sentences.csv'), header=None, squeeze=True)
-clean_sentences = pd.read_csv(os.path.join(project_dir,'clean_text/clean_sentences.csv'), header=None, squeeze=True)
-
-# find rows with nan
+# find rows with nan and drop them
 mask = clean_sentences.isna()
 nan_rows = clean_sentences[mask].index.tolist()
-
 sentences.drop(nan_rows, inplace=True)
 clean_sentences.drop(nan_rows, inplace=True)
 sentences = sentences.tolist()
 clean_sentences = clean_sentences.tolist()
-
 
 # word_vectors
 # import pre-trained word_vectors from glove

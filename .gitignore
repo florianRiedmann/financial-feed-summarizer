@@ -1,4 +1,5 @@
 .git
+.pyc
 .DS_Store
 __pycache__
 *.csv

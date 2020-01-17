@@ -22,3 +22,9 @@ def export_to_csv():
     print(df)
     df.to_csv(os.path.join(path, str(datetime.date.today()) + '_financial_feeds.csv'))
     return None
+
+def export_clean_sentence_to_csv()
+    # export cleaned sentences do DataFrame
+    pd.DataFrame(sentences).to_csv(os.path.join(project_dir, "clean_text/sentences.csv"), header=False, index=False)
+    pd.DataFrame(clean_sentences).to_csv(os.path.join(project_dir, "clean_text/clean_sentences.csv"), header=False, index=False)
+    return None
