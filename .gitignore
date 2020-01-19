@@ -1,7 +1,6 @@
 .git
-*.pyc
 .DS_Store
+*.pyc
 __pycache__
-test_data/
 glove/
 ffs-venv/
