@@ -51,9 +51,7 @@ def remove_short_sentences(data):
 
 def remove_duplicate_sentences(data):
     # remove duplicates from scentences
-    print(len(data))
     sentences = list(set(data))
-    print(len(data))
     return data
 
 def clean_sentence(data):
@@ -68,28 +66,30 @@ def clean_sentence(data):
 
 def clean_clean_sentence(data):
     # remove numbers, spaces, special characters and punctuation
-    data = pd.Series(data).str.replace("[^a-zA-Z]", " ") \
+    series = pd.Series(data).str.replace("[^a-zA-Z]", " ") \
         .str.replace("\s+", " ") \
         .str.replace("^\s", "") \
         .str.replace("\s$", "")
+    data = pd.concat([data, series], axis=1)
     return data
 
 def lowercase_sentences(data):
     # change to lowercase
-    data = pd.Series([str.lower(s) for s in data])
+    data.iloc[:,1] = pd.Series([str.lower(s) for s in data.iloc[:,1]])
     return data
 
 def remove_stopwords(data):
     # remove stopwords
+    sentences = data.iloc[:,1].tolist()
     stop_words = stopwords.words('english')
     filtered_sentences = []
-    for sentence in data:
+    for sentence in sentences:
         filtered_words = []
         for word in sentence.split(" "):
             if word not in stop_words:
                 filtered_words.append(word)
         filtered_sentences.append(" ".join(filtered_words))
-        data = filtered_sentences
+        data.iloc[:,1] = pd.Series(filtered_sentences)
     return data
 
 # cleaning pipline
