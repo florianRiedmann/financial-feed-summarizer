@@ -9,8 +9,8 @@ import networkx as nx
 
 # clean_text
 project_dir = os.path.dirname(__file__)
-sentences = pd.read_csv(os.path.join(project_dir,'clean_text/sentences.csv'), header=None, squeeze=True)
-clean_sentences = pd.read_csv(os.path.join(project_dir,'clean_text/clean_sentences.csv'), header=None, squeeze=True)
+sentences = pd.read_csv(os.path.join(project_dir, 'clean_text/sentences.csv'), header=None, squeeze=True)
+clean_sentences = pd.read_csv(os.path.join(project_dir, 'clean_text/clean_sentences.csv'), header=None, squeeze=True)
 
 # find rows with nan
 mask = clean_sentences.isna()
@@ -33,6 +33,7 @@ def get_word_vectors(filepath):
             coefficients = np.array(values[1:], dtype='float32')
             word_vectors[word] = coefficients
     return word_vectors
+
 
 word_vectors = get_word_vectors(filepath='glove/glove.6B.100d.txt')
 
@@ -61,6 +62,7 @@ for i in clean_sentences:
 n = len(sentences)
 S = np.zeros([n, n])
 
+
 def cosine_similarity(v1, v2):
     dot = np.dot(v1, v2)
     normv1 = np.linalg.norm(v1)
@@ -68,12 +70,13 @@ def cosine_similarity(v1, v2):
     cos = dot / (normv1 * normv2)
     return cos
 
+
 # http://blog.christianperone.com/2013/09/machine-learning-cosine-similarity-for-vector-space-models-part-iii/
 # Cosine similarity between sentence_vectors (cosine similarity: 1 - cosine distance)
 for i in range(n):
-  for j in range(n):
-    if i != j:
-      S[i][j] = cosine_similarity(sentence_vectors[i], sentence_vectors[j])
+    for j in range(n):
+        if i != j:
+            S[i][j] = cosine_similarity(sentence_vectors[i], sentence_vectors[j])
 
 # Pagerank Algorithm
 # https://networkx.github.io/documentation/networkx-1.9.1/overview.html
@@ -85,6 +88,6 @@ list = []
 for index, sentence in enumerate(sentences):
     list.append((scores[index], sentence))
 
-df = pd.DataFrame(list, columns =['Score', 'Sentence'])
+df = pd.DataFrame(list, columns=['Score', 'Sentence'])
 df.nlargest(20, 'Score').to_csv(os.path.join(project_dir, "result/summary_top20.csv"), header=False, index=False)
 df.to_csv(os.path.join(project_dir, "result/summary.csv"), header=False, index=False)

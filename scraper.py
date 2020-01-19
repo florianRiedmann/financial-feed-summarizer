@@ -50,10 +50,10 @@ def get_article(dict, tag=None, class__=None, headers=None):
     return dict
 
 
-def create_DataFrame():
+def get_scraped_data():
     feeds = get_feeds('feeds.json')
     data = pd.DataFrame()
-    for id, feed in feeds.items():
+    for index, feed in feeds.items():
         d = parse_feeds(feed)
         d = get_article(d, tag=feed['tag'], class__=feed['class'], headers=feed['header'])
         df = pd.DataFrame(d)
