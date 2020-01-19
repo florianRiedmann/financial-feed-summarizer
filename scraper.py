@@ -44,6 +44,7 @@ def get_article(dict, tag=None, class__=None, headers=None):
                 paragraph = paragraph.replace(".documentBanner=1", "")
                 article.append(paragraph)
         except AttributeError:
+            print(url)
             print('Attribute Error!')
         articles.append(article)
     dict['article'] = articles

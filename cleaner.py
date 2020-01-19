@@ -51,7 +51,7 @@ def remove_short_sentences(data):
 
 def remove_duplicate_sentences(data):
     # remove duplicates from scentences
-    sentences = list(set(data))
+    data = data.drop_duplicates(keep='first')
     return data
 
 def clean_sentence(data):
@@ -75,7 +75,7 @@ def clean_clean_sentence(data):
 
 def lowercase_sentences(data):
     # change to lowercase
-    data.iloc[:,1] = pd.Series([str.lower(s) for s in data.iloc[:,1]])
+    data.iloc[:,1] = data.iloc[:,1].str.lower()
     return data
 
 def remove_stopwords(data):

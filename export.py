@@ -11,9 +11,7 @@ def make_directory():
     try:
         os.mkdir(path)
     except FileExistsError:
-        print('Directory already exists.')
-    finally:
-        print('Directory created.')
+        print('Attention: Directory already exists.')
     return path
 
 def export_to_csv():

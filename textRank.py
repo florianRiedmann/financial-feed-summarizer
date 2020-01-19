@@ -72,7 +72,6 @@ def make_similarity_matrix(data):
 
 def summary(data):
     list = []
-    print(data.head())
     clean_sentence = data.iloc[:,0]
     clean_clean_sentence = data.iloc[:,1]
 
