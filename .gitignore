@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-.git
-.DS_Store
-*.pyc
-=======
 .*
->>>>>>> 24ebb03f14eab43557b34bee0855a62d636f7f74
-__pycache__
+__pycache__/
 glove/
-ffs-venv/
+env/
