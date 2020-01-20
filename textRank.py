@@ -5,8 +5,10 @@ import networkx as nx
 import cleaner
 import export
 
+
 # import clean sentences and clean clean sentences and find rows with nan -> drop them
 df = cleaner.clean_clean_sentence_pipe().dropna()
+
 
 # word_vectors
 # import pre-trained word_vectors from glove
@@ -47,12 +49,14 @@ def make_sentence_vectors(data):
     return sentence_vectors
 
 
+
 def cosine_similarity(v1, v2):
     dot = np.dot(v1, v2)
     normv1 = np.linalg.norm(v1)
     normv2 = np.linalg.norm(v2)
     cos = dot / (normv1 * normv2)
     return cos
+
 
 def make_similarity_matrix(data):
     # call the make sentence vector function
