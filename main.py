@@ -5,6 +5,7 @@ from clustering import get_clusters
 from config import SCRAPE_DATA, SCRAPED_DATA_FILE_NAME, CLEAN_ARTICLE_FILE_NAME, CLEAN_SENTENCE_FILE_NAME, \
     CLUSTERED_ARTICLE_FILE_NAME, CLUSTER_ARTICLES
 from logger import logger
+from readability_scorer import get_readability_score
 from scraper import get_scraped_data
 
 # STEP 1: Scrapping data from RSS-Feeds
@@ -38,5 +39,11 @@ for i, article in articles.iterrows():
     # clean_clean_sentences = article['clean_article']
     # text rank cluster an summerize
     print()
+
+# STEP 5: Readability
+logger.info("STEP 4: Get readability")
+summarized_text = "This is a summarized text example."
+readability_score = get_readability_score(summarized_text)
+logger.info(f"Readability score: {readability_score}")
 
 logger.info("THE END")

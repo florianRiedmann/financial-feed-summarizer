@@ -2,6 +2,7 @@ import nltk
 import pandas as pd
 from logger import logger
 import scraper
+
 nltk.download('punkt')
 nltk.download('stopwords')
 from nltk.tokenize import sent_tokenize
@@ -109,7 +110,7 @@ def remove_stopwords(data):
         filtered_sentences.append(" ".join(filtered_words))
     data['clean_sentences'] = filtered_sentences
     return data
-  
+
 
 def combine_to_article(data):
     grp = data.groupby('article_nr')
@@ -150,4 +151,3 @@ def clean_article_pipe(data):
             .pipe(lowercase_sentences)
             .pipe(remove_stopwords)
             .pipe(combine_to_article))
-
