@@ -10,6 +10,9 @@ from config import GENERATE_NEW_VECTORS, VECTOR_PICKLE_FILE_NAME, SILHOUETTE_SCO
 
 np.random.seed(GLOBAL_RANDOM_SEED)
 
+# python -m spacy download en_core_web_lg
+
+
 def load_core():
     logger.info("Loading spaCy Core")
     nlp = spacy.load('en_core_web_lg')  # loading spaCy core
