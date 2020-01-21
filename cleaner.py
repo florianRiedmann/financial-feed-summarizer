@@ -1,10 +1,6 @@
-import nltk
 import pandas as pd
 from logger import logger
 import scraper
-
-nltk.download('punkt')
-nltk.download('stopwords')
 from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 
@@ -24,9 +20,9 @@ def tokenize_articles(data):
     logger.info("tokenizing articles")
     # makes a list with a list of tokenized articles
     articles = []
-    for article in data['article']:
+    for article in data.loc[:, 'article']:
         articles.append(sent_tokenize(str(article)))
-    data['tokenized_articles'] = articles
+    data.loc[:, 'tokenized_articles'] = articles
     return data
 
 
@@ -35,7 +31,7 @@ def make_list_sentences(data):
     # make a list with every sentence
     sentences = []
     article_nrs = []
-    for index, article in data['tokenized_articles'].items():
+    for index, article in data.loc[:, 'tokenized_articles'].items():
         for sentence in article:
             sentences.append(sentence)
             article_nrs.append(index)
@@ -65,9 +61,7 @@ def remove_short_sentences(data):
 def remove_duplicate_sentences(data):
     logger.info("removing duplicated sentences")
     # remove duplicates from scentences
-    print(len(data))
-    sentences = list(set(data))
-    print(len(data))
+    data = data.drop_duplicates()
     return data
 
 
@@ -146,6 +140,7 @@ def clean_article_pipe(data):
             .pipe(make_list_sentences)
             .pipe(remove_bad_words)
             .pipe(remove_short_sentences)
+            .pipe(remove_duplicate_sentences)
             .pipe(clean_sentence)
             .pipe(clean_clean_sentence)
             .pipe(lowercase_sentences)
