@@ -2,8 +2,9 @@ import numpy as np
 import pandas as pd
 import networkx as nx
 from logger import logger
-from config import SUMMARY_SENTENCE_NUMBER
+from config import SUMMARY_SENTENCE_NUMBER, GLOBAL_RANDOM_SEED
 
+np.random.seed(GLOBAL_RANDOM_SEED)
 
 # word_vectors
 # import pre-trained word_vectors from glove
