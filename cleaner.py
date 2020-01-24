@@ -1,8 +1,8 @@
 import pandas as pd
-from logger import logger
-import scraper
-from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
+from nltk.tokenize import sent_tokenize
+
+from logger import logger
 
 
 # remove empty articles from the dataFrame
@@ -67,6 +67,7 @@ def remove_duplicate_sentences(data):
 
 def clean_sentence(data):
     logger.info("cleaning sentences")
+    # replace special characters
     data['sentences'] = pd.Series(data['sentences']).str.replace(r"[\[\]]", "", regex=True) \
         .str.replace(",\'", "", regex=False) \
         .str.replace("\',", "", regex=False) \
@@ -107,33 +108,15 @@ def remove_stopwords(data):
 
 
 def combine_to_article(data):
-    grp = data.groupby('article_nr')
+    grp = data.groupby('article_nr')  # group cleaned sentences by article nr
     articles = pd.DataFrame()
-    articles['article'] = grp['sentences'].apply(list)
-    articles['clean_article'] = grp['clean_sentences'].apply(list)
+    articles['article'] = grp['sentences'].apply(list)  # generate list of sentences per article
+    articles['clean_article'] = grp['clean_sentences'].apply(list) # generate cleaned list of sentences per article
     return articles
 
 
-# cleaning pipline
-def clean_sentence_pipe():
-    return (scraper.get_scraped_data()
-            .pipe(remove_empty_articles)
-            .pipe(tokenize_articles)
-            .pipe(make_list_sentences)
-            .pipe(remove_bad_words)
-            .pipe(remove_short_sentences)
-            .pipe(remove_duplicate_sentences)
-            .pipe(clean_sentence))
-
-
-def clean_clean_sentence_pipe():
-    return (clean_sentence_pipe()
-            .pipe(clean_clean_sentence)
-            .pipe(lowercase_sentences)
-            .pipe(remove_stopwords))
-
-
-def clean_article_pipe(data):
+# Pipeline for cleaning articles
+def get_clean_articles(data):
     return (data
             .pipe(remove_empty_articles)
             .pipe(tokenize_articles)
