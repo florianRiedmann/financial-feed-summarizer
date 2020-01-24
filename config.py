@@ -31,3 +31,7 @@ SILHOUETTE_SCORE_PLOT_FILE_NAME = os.path.join(PROJECT_DIR, "plots/silhouette_sc
 
 # Number of Sentences in Summary
 SUMMARY_SENTENCE_NUMBER = 3
+
+# Logging
+LOG_TO_FILE = True
+LOG_FILE_NAME = os.path.join(PROJECT_DIR, "summarizer.log")
