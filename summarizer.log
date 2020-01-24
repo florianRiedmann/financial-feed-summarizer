@@ -1,0 +1,41 @@
+2020-01-24 09:58:37,453 INFO: STEP 1: Checking for existing directories
+2020-01-24 09:58:37,453 INFO: ATTENTION: /Users/Thomas/PycharmProjects/financial-feed-summarizer/step_results already existed
+2020-01-24 09:58:37,453 INFO: ATTENTION: /Users/Thomas/PycharmProjects/financial-feed-summarizer/pickles already existed
+2020-01-24 09:58:37,454 INFO: ATTENTION: /Users/Thomas/PycharmProjects/financial-feed-summarizer/plots already existed
+2020-01-24 09:58:37,454 INFO: ATTENTION: /Users/Thomas/PycharmProjects/financial-feed-summarizer/glove already existed
+2020-01-24 09:58:37,454 INFO: STEP 2: Checking dependencies
+2020-01-24 09:58:56,329 INFO: STEP 3: Scrapping data from RSS-Feeds
+2020-01-24 09:59:47,313 INFO: STEP 4: Cleaning articles
+2020-01-24 09:59:47,314 INFO: removing empty articles
+2020-01-24 09:59:47,316 INFO: tokenizing articles
+2020-01-24 09:59:47,480 INFO: generating sentence list
+2020-01-24 09:59:47,484 INFO: removing bad sentences
+2020-01-24 09:59:47,589 INFO: removing short sentences
+2020-01-24 09:59:47,605 INFO: removing duplicated sentences
+2020-01-24 09:59:47,609 INFO: cleaning sentences
+2020-01-24 09:59:47,906 INFO: STEP 5: Clustering articles
+2020-01-24 09:59:47,907 INFO: Loading spaCy Core
+2020-01-24 10:00:07,445 INFO: spaCy Core loaded
+2020-01-24 10:00:07,445 INFO: Vectorizing articles
+2020-01-24 10:00:21,119 INFO: 30 articles vectorized
+2020-01-24 10:00:22,950 INFO: Pickling vectors to /Users/Thomas/PycharmProjects/financial-feed-summarizer/pickles/article_vector.pickle
+2020-01-24 10:00:22,951 INFO: Vectors pickled
+2020-01-24 10:00:22,951 INFO: Searching for optimal number of clusters
+2020-01-24 10:00:25,594 INFO: Optimal number of Clusters is 12
+2020-01-24 10:00:25,594 INFO: Silhouette_score: 0.11766710132360458
+2020-01-24 10:00:25,868 INFO: STEP 6: Summarize articles
+2020-01-24 10:00:25,882 INFO: STEP 7: Get readability
+2020-01-24 10:00:25,886 INFO: CLUSTER 0: Readability score: -4.891111111111073
+2020-01-24 10:00:25,890 INFO: CLUSTER 1: Readability score: -39.52325581395344
+2020-01-24 10:00:25,892 INFO: CLUSTER 2: Readability score: -0.46818181818177607
+2020-01-24 10:00:25,895 INFO: CLUSTER 3: Readability score: 8.091764705882383
+2020-01-24 10:00:25,896 INFO: CLUSTER 4: Readability score: 21.11846153846156
+2020-01-24 10:00:25,900 INFO: CLUSTER 5: Readability score: -105.25631578947363
+2020-01-24 10:00:25,903 INFO: CLUSTER 6: Readability score: -97.56917721518982
+2020-01-24 10:00:25,905 INFO: CLUSTER 7: Readability score: -12.202222222222204
+2020-01-24 10:00:25,906 INFO: CLUSTER 8: Readability score: 40.84152542372884
+2020-01-24 10:00:25,909 INFO: CLUSTER 9: Readability score: -22.414642857142837
+2020-01-24 10:00:25,910 INFO: CLUSTER 10: Readability score: -14.355408163265267
+2020-01-24 10:00:25,912 INFO: CLUSTER 11: Readability score: 2.7321428571428896
+2020-01-24 10:00:25,915 INFO: CLUSTER 12: Readability score: -60.1541176470588
+2020-01-24 10:00:25,915 INFO: THE END

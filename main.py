@@ -1,5 +1,5 @@
 import pandas as pd
-from cleaner import clean_article_pipe
+from cleaner import get_clean_articles
 from clustering import get_clusters
 from config import SCRAPE_DATA, SCRAPED_DATA_FILE_NAME, CLEAN_ARTICLE_FILE_NAME, \
     CLUSTERED_ARTICLE_FILE_NAME, CLUSTER_ARTICLES, CHECK_DEPENDENCIES, CHECK_DIRECTORIES, \
@@ -14,6 +14,8 @@ from rank import summary
 
 
 # STEP 1: Check Directories
+from summerizer import get_summarized_articles
+
 if CHECK_DIRECTORIES:
     logger.info("STEP 1: Checking for existing directories")
     make_directory(RESULTS_PATH, PICKLES_PATH, PLOTS_PATH, GLOVE_PATH)
@@ -34,7 +36,7 @@ else:
 
 # STEP 4: Cleaning articles
 logger.info("STEP 4: Cleaning articles")
-articles = clean_article_pipe(scraped_data)
+articles = get_clean_articles(scraped_data)
 articles.to_csv(CLEAN_ARTICLE_FILE_NAME, header=True)
 
 # STEP 5: Clustering articles
@@ -47,19 +49,8 @@ else:
 
 # STEP 6: Summarize articles
 logger.info("STEP 6: Summarize articles")
-grp = articles.groupby('cluster')
-articles = articles.groupby('cluster').agg({'article': 'sum', 'clean_article': 'sum'})
-
 if SUMMARIZE_ARTICLES:
-    summaries = []
-    for i, article in articles.iterrows():
-        clean_sentences = article['article']
-        clean_clean_sentences = article['clean_article']
-        logger.info(f"CLUSTER {i} SUMMARY")
-        summarized_article = summary(clean_sentences, clean_clean_sentences)
-        [print(f"{i+1}: {elem}") for i, elem in enumerate(summarized_article)]
-        summaries.append(summarized_article)
-    articles['summary'] = pd.Series(summaries)
+    articles = get_summarized_articles(articles)
     articles.to_csv(SUMMARIZED_ARTICLE_FILE_NAME, header=True)
 else:
     articles = pd.read_csv(SUMMARIZED_ARTICLE_FILE_NAME, header=0)
